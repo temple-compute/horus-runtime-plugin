@@ -42,7 +42,10 @@ source = ["my_plugin"]
 omit = ["tests/*"]
 
 [tool.hatch.build]
-artifacts = ["src/my_plugin/locale/**/LC_MESSAGES/*.mo"]
+artifacts = [
+  "src/my_plugin/py.typed",
+  "src/my_plugin/locale/**/LC_MESSAGES/*.mo",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/my_plugin"]

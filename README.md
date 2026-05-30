@@ -110,20 +110,17 @@ Import the wrapper as `_` (required by Babel's extractor) in any module with use
 ### Requirements
 
 - Python ≥ 3.13
-- `horus-runtime` ≥ 0.0.1 (install from source or PyPI)
+- `horus-runtime` ≥ 0.1.1 (install from source or PyPI)
+- [uv](https://docs.astral.sh/uv/) for managing the virtual environment and dependencies
 
 ### Setup
 
 ```bash
-# Create an isolated environment (micromamba recommended)
-micromamba create -y -n my_plugin python=3.13
-micromamba activate my_plugin
-
-# Install in editable mode with dev dependencies
-pip install -e ".[dev]"
+# Install dependencies (creates .venv automatically)
+uv sync
 
 # Install pre-commit hooks
-pre-commit install
+uv run pre-commit install
 ```
 
 ### Common commands

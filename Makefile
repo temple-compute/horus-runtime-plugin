@@ -18,9 +18,8 @@ SOURCE_DIR = src/my_plugin
 # Variables used for babel metadata
 PROJECT_NAME = horus-runtime-plugin
 ORGANIZATION = YOUR_ORGANIZATION_NAME
-LICENSE_TMPL = .mit.tmpl
 
-.PHONY: test lint format type-check clean help ruff-check ruff-format-check mypy-check babel-update babel-check babel-add babel-extract add-license-headers
+.PHONY: test lint format type-check clean help ruff-check ruff-format-check mypy-check babel-update babel-check babel-add babel-extract
 
 help:
 	@echo "Available commands:"
@@ -63,10 +62,6 @@ format:
 type-check:
 	$(MYPY_CMD)
 
-add-license-headers:
-	licenseheaders -t $(LICENSE_TMPL) -cy -o '$(ORGANIZATION)' -n $(PROJECT_NAME) -d src
-	licenseheaders -t $(LICENSE_TMPL) -cy -o '$(ORGANIZATION)' -n $(PROJECT_NAME) -d tests
-
 clean:
 	find . -type d -name "__pycache__" -delete
 	find . -type f -name "*.pyc" -delete
@@ -95,7 +90,11 @@ babel-check:
 		fi; \
 	done
 	@echo "Success: All strings are translated."
-	pybabel compile -d $(LOCALE_DIR) -D $(DOMAIN) --statistics
+	@if find $(LOCALE_DIR) -name "*.po" | grep -q .; then \
+		pybabel compile -d $(LOCALE_DIR) -D $(DOMAIN) --statistics; \
+	else \
+		echo "No .po catalogs to compile yet."; \
+	fi
 
 babel-add:
 	pybabel init -i $(MESSAGES_POT) -d $(LOCALE_DIR) -l $(LANG) -D $(DOMAIN)

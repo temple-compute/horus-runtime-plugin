@@ -1,14 +1,13 @@
 [project]
 name = "horus-runtime-plugin"
 description = "A custom plugin for the Horus runtime, providing additional functionality and integrations."
-version = "0.0.1"
 requires-python = ">=3.13"
-license = { file = "LICENSE" }
+license = "MIT"
 classifiers = [
-  "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
 ]
 dependencies = ["horus-runtime>=0.1.1"]
+dynamic = ["version"]
 
 # ================
 # Plugin entry-points
@@ -21,7 +20,6 @@ custom_task = "my_plugin.task.custom_task"
 [dependency-groups]
 dev = [
   "babel~=2.0",
-  "licenseheaders~=0.8",
   "mypy~=1.19",
   "pre_commit~=4.0",
   "pytest~=9.0",
@@ -29,10 +27,11 @@ dev = [
   "pytest-cov~=7.0",
   "ruff~=0.15",
   "types-PyYAML~=6.0",
+  "uv-dynamic-versioning>=0.14.0",
 ]
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.29,<2.0", "uv-dynamic-versioning>=0.14.0,<1.0"]
 build-backend = "hatchling.build"
 
 [tool.coverage.run]
@@ -41,14 +40,19 @@ source = ["my_plugin"]
 [tool.coverage.report]
 omit = ["tests/*"]
 
-[tool.hatch.build]
-artifacts = [
-  "src/my_plugin/py.typed",
-  "src/my_plugin/locale/**/LC_MESSAGES/*.mo",
-]
+# Other tool configurations
+[tool.hatch.version]
+source = "uv-dynamic-versioning"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/my_plugin"]
+# py.typed ships the type marker; compiled translations are git-ignored (*.mo)
+# but must ship in the wheel.
+artifacts = ["src/my_plugin/py.typed", "src/my_plugin/locale/**/*.mo"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/my_plugin", "tests"]
+artifacts = ["src/my_plugin/py.typed", "src/my_plugin/locale/**/*.mo"]
 
 [tool.mypy]
 python_version = "3.13"
@@ -115,3 +119,6 @@ convention = "google"
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+
+[tool.uv-dynamic-versioning]
+fallback-version = "0.0.1"

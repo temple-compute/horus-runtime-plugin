@@ -34,6 +34,7 @@ class TestCustomTaskRegistration:
         """
         assert (
             CustomTask(
+                id="test_task",
                 name="test_task",
                 executor=ShellExecutor(),
                 runtime=CommandRuntime(command="echo 'Hello, World!'"),
@@ -61,6 +62,7 @@ class TestCustomTaskRun:
         # TODO: replace with a real executor/runtime once implemented
         with pytest.raises(TaskExecutionError):
             task = CustomTask(
+                id="test_custom_task",
                 name="test_custom_task",
                 executor=ShellExecutor(),
                 runtime=CommandRuntime(command="echo 'Hello, World!'"),
@@ -81,6 +83,7 @@ class TestCustomTaskReset:
         """
         with pytest.raises(NotImplementedError):
             task = CustomTask(
+                id="test_custom_task",
                 name="test_custom_task",
                 executor=ShellExecutor(),
                 runtime=CommandRuntime(command="echo 'Hello, World!'"),
@@ -101,6 +104,7 @@ class TestCustomTaskIsComplete:
         """
         with pytest.raises(NotImplementedError):
             task = CustomTask(
+                id="test_custom_task",
                 name="test_custom_task",
                 executor=ShellExecutor(),
                 runtime=CommandRuntime(command="echo 'Hello, World!'"),

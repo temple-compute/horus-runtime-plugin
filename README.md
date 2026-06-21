@@ -73,7 +73,7 @@ Declaring an entry point is therefore sufficient, you do not need to call any re
 
 ### Adding a task
 
-Subclass `BaseTask`, set a globally unique `kind`, implement `_run()`, and declare the entry point in `pyproject.toml` under `[project.entry-points."horus.task"]`. Reinstall with `pip install -e .`.
+Subclass `BaseTask`, set a globally unique `kind`, implement `_run()`, and declare the entry point in `pyproject.toml` under `[project.entry-points."horus.task"]`. Re-sync with `uv sync`.
 
 ### Adding an artifact
 
@@ -114,17 +114,22 @@ Import the wrapper as `_` (required by Babel's extractor) in any module with use
 
 ### Setup
 
-```bash
-# Create an isolated environment (micromamba recommended)
-micromamba create -y -n my_plugin python=3.13
-micromamba activate my_plugin
+This project uses [uv](https://docs.astral.sh/uv/) for dependency management and
+[hatchling](https://hatch.pypa.io/) + [`uv-dynamic-versioning`](https://github.com/ninoseki/uv-dynamic-versioning)
+for packaging. The version is derived from git tags (`vX.Y.Z`), falling back to
+`0.0.1` when no tag is present — never hard-code a version.
 
-# Install in editable mode with dev dependencies
-pip install -e ".[dev]"
+```bash
+# Create the virtualenv and install the project + dev dependencies
+uv sync --group dev
 
 # Install pre-commit hooks
-pre-commit install
+uv run pre-commit install
 ```
+
+Run any command inside the environment with `uv run ...` (e.g. `uv run make test`).
+Cut a release by pushing a tag: `git tag v0.1.0 && git push --tags`, then publish a
+GitHub release — the `release` workflow builds and uploads to PyPI.
 
 ### Common commands
 
@@ -143,4 +148,5 @@ pre-commit install
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT (`license = "MIT"` in `pyproject.toml`). Add a `LICENSE` file with your
+copyright holder if you intend to distribute.

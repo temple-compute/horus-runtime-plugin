@@ -35,9 +35,3 @@ repos:
     name: babel-check
     entry: make babel-check
     language: system
-
-  - id: add-license-headers
-    name: add-license-headers
-    entry: make add-license-headers
-    language: system
-    pass_filenames: false

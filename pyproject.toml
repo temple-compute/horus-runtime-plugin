@@ -6,7 +6,7 @@ license = "MIT"
 classifiers = [
   "Programming Language :: Python :: 3",
 ]
-dependencies = ["horus-runtime>=0.0.1"]
+dependencies = ["horus-runtime>=0.1.1"]
 dynamic = ["version"]
 
 # ================
@@ -46,12 +46,13 @@ source = "uv-dynamic-versioning"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/my_plugin"]
-# Compiled translations are git-ignored (*.mo) but must ship in the wheel.
-artifacts = ["src/my_plugin/locale/**/*.mo"]
+# py.typed ships the type marker; compiled translations are git-ignored (*.mo)
+# but must ship in the wheel.
+artifacts = ["src/my_plugin/py.typed", "src/my_plugin/locale/**/*.mo"]
 
 [tool.hatch.build.targets.sdist]
 include = ["src/my_plugin", "tests"]
-artifacts = ["src/my_plugin/locale/**/*.mo"]
+artifacts = ["src/my_plugin/py.typed", "src/my_plugin/locale/**/*.mo"]
 
 [tool.mypy]
 python_version = "3.13"

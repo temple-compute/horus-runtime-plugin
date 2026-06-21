@@ -190,7 +190,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "horus-runtime", specifier = ">=0.0.1" }]
+requires-dist = [{ name = "horus-runtime", specifier = ">=0.1.1" }]
 
 [package.metadata.requires-dev]
 dev = [

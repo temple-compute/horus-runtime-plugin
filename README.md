@@ -110,7 +110,8 @@ Import the wrapper as `_` (required by Babel's extractor) in any module with use
 ### Requirements
 
 - Python ≥ 3.13
-- `horus-runtime` ≥ 0.0.1 (install from source or PyPI)
+- `horus-runtime` ≥ 0.1.1 (install from source or PyPI)
+- [uv](https://docs.astral.sh/uv/) for managing the virtual environment and dependencies
 
 ### Setup
 
